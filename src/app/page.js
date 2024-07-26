@@ -4,7 +4,7 @@ import { FilterProvider } from "./contexts/useFilter";
 import { PlaceContextProvider } from "./contexts/usePlaces";
 import { UserContextProvider } from "./contexts/useRContext";
 import { BuisnessProvider } from "./contexts/useBuisness";
-import { Provider } from "./provider";
+
 import Header from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
 import Map from "./components/Map";
@@ -62,7 +62,7 @@ function Home() {
   return (
    <>
      
-     <Provider>
+    
           <UserContextProvider value={{location, setloc}}>
             <BuisnessProvider value={{selectedPlace, setselectedPlace}}>
             <FilterProvider value={{dist, setdist, category, setCategory, rating, setRating, Search, setSearch}}>
@@ -84,7 +84,7 @@ function Home() {
           </FilterProvider>
           </BuisnessProvider>
           </UserContextProvider>
-          </Provider>
+         
    </>  );
 }
 
