@@ -1,7 +1,7 @@
 // src/app/api/places/route.js
 
 import axios from 'axios';
-
+export const dynamic = "force-dynamic";
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const location = searchParams.get('location');
