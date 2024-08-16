@@ -35,6 +35,7 @@ const Places = () => {
             opennow: true,
         }});
         setplaces(res.data.results)
+        console.log(res.data.results)
         setFilteredplaces(res.data.results)
       }
 
