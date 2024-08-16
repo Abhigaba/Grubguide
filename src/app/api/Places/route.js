@@ -1,7 +1,7 @@
 // src/app/api/places/route.js
 
 import axios from 'axios';
-export const dynamic = "force-dynamic";
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const location = searchParams.get('location');
@@ -19,7 +19,6 @@ export async function GET(request) {
   };
 
   try {
-    
     const response = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', { params });
     const places = response.data.results.filter(place => place.rating >= parseFloat(minrating));
     return new Response(JSON.stringify({ results: places }), { status: 200 });
