@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { account } from '@/config/appwrite';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/useAuth';
@@ -12,13 +12,27 @@ const Register = () => {
   const router = useRouter()
   const {setUser}  =useAuth()
 
+  useEffect(() => {
+    const check = async () => {
+      try{
+        const user = await account.get()
+        if (user) {
+          router.push('/')
+        }
+    }
+    catch(error){
+      return 
+    }
+  }
+    check()
+}, [])
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
     const name = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
-
     
     try {
       if (password.length < 8 ) {

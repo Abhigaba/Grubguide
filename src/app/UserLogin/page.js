@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { account } from '@/config/appwrite';
 import { useAuth } from '../contexts/useAuth';
@@ -11,7 +11,20 @@ const UserLogin = () => {
   const router = useRouter()
   const {user, setUser} = useAuth() 
 
-
+  useEffect(() => {
+      const check = async () => {
+        try{
+          const user = await account.get()
+          if (user) {
+            router.push('/')
+          }
+      }
+      catch(error){
+        return 
+      }
+    }
+      check()
+  }, [])
   const handleLogin = async (e) => {
     
     e.preventDefault();
