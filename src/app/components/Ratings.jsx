@@ -5,19 +5,9 @@ import { useFilter } from '../contexts/useFilter'
 const Ratings = () => {
     
     const {rating, setRating} = useFilter()
-
-    const onselect = (value, index) => {
-        if(value) {
-            setRating([...rating, index])
-            
-        }
-        else{
-            setRating((prev) => (prev.filter((n) => n!==index)))
-        }
-
+    const handleOptionChange = (e) => {
+        setRating(e.target.value)
     }
-
-
 
   return (
 <>
@@ -26,8 +16,9 @@ const Ratings = () => {
     {ratings.map((items, index) => (
         <div key={index} className='flex justify-between'>
             <label >{items.icon}</label>
-            <input type="checkbox" 
-            onChange={(e) => onselect(e.target.checked, index)}
+            <input type="radio"  value={index+1} 
+            checked={rating==index+1}
+            onChange={(e) => handleOptionChange(e)}
             />
         </div>
     ))}

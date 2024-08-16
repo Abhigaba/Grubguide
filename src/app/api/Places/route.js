@@ -15,6 +15,7 @@ export async function GET(request) {
     radius,
     type: 'restaurant',
     keyword,
+    minrating
   };
 
   try {

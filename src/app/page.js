@@ -22,11 +22,11 @@ function Home() {
   const [category, setCuis] = useState("Indian")
   const [places, setPlaces] = useState([])
   const [fav, setFav] = useState([])
-  const [rating, setrate] = useState([])
+  const [rating, setrate] = useState(4)
   const[Search,  setsearch] = useState('')
 
-  const setRating = (ratings) => {
-        setrate(ratings)
+  const setRating = (rating) => {
+        setrate(rating)
   }
 
   const setSearch = (string) => {
@@ -61,8 +61,6 @@ function Home() {
 
   return (
    <>
-     
-    
           <UserContextProvider value={{location, setloc}}>
             <BuisnessProvider value={{selectedPlace, setselectedPlace}}>
             <FilterProvider value={{dist, setdist, category, setCategory, rating, setRating, Search, setSearch}}>

@@ -31,13 +31,12 @@ const center = {
     useEffect(() => {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function () {}, function () {}, {});
-          //The working next statement.
           navigator.geolocation.getCurrentPosition(function (position) {
             const { latitude, longitude } = position.coords;
             setloc({ lat: latitude, lng: longitude })
             console.log(latitude, longitude)
           }, function (e) {
-              //Your error handling here
+              return 
           }, {
               enableHighAccuracy: true
           });
@@ -46,7 +45,7 @@ const center = {
       , [])
 
         useEffect(() => {
-          if (map && selectedPlace) {
+          if (map && selectedPlace.geometry) {
             map.panTo(selectedPlace.geometry.location)
           }
         },[selectedPlace])

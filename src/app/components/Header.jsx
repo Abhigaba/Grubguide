@@ -6,8 +6,13 @@ import { account } from '@/config/appwrite'
 import { useFilter } from '../contexts/useFilter'
 import { useMap } from '../contexts/useMapContext';
 import { useRContext } from '../contexts/useRContext'
+import { useRef } from 'react'
+import { useEffect } from 'react'
 
 const Header = () => {
+
+    const ref = useRef(null)
+    const menuref = useRef(null)
 
     const [visibleFav, setvisibleFav] = useState(false)
     const router = useRouter()
@@ -31,14 +36,28 @@ const Header = () => {
         router.push('/UserLogin');
     }
 
+    const handleClickOutside = (event) => {
+      if (visibleFav && ref.current && !ref.current.contains(event.target) && menuref.current && !menuref.current.contains(event.target)) {
+          setvisibleFav(false)
+      }
+  }
+
   
+    useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+          document.removeEventListener('mousedown', handleClickOutside)
+      }
+  })
+
+
     return (
     <div className=' pr-10 py-2  flex items-center justify-between bg-gray-100'>
     <div className='flex rounded-xl gap-7 items-center'>
         <img src="./maps_icon.jpg" width={100} height={150} className='rounded-2xl' alt="" />
         <h2 onClick={() => handleClick()} className='cursor-pointer'>Home</h2>
-        <h2 className='cursor-pointer' onClick={() => setvisibleFav((prev) => !prev)}>Favourites</h2>
-        {visibleFav && <FavouriteCard />}
+        <h2 className='cursor-pointer' ref={ref} onClick={() => setvisibleFav((prev) => !prev)}>Favourites</h2>
+        {visibleFav && <FavouriteCard visible={visibleFav} menu={menuref} setvisible={setvisibleFav}/>}
     </div>
     <div className='hidden sm:flex gap-2 items-center bg-gray-300 w-2/5 px-3 py-2 rounded-xl'>
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">

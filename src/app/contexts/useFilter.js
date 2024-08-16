@@ -5,7 +5,7 @@ const FilterContext = createContext({
     setdist: () => {},
     category: "",
     setCategory: () => {},
-    rating: [],
+    rating: 1,
     setRating: () => {},
     Search : '',
     setSearch : () => {}

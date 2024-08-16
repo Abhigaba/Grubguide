@@ -1,20 +1,20 @@
 import React from 'react'
-
+import { useFavourites } from '../contexts/useFavourites'
 const FavItem = ({place}) => {
-    const photo_ref=place?.photos?place?.photos[0]?.photo_reference:''
+   
+    const photo_ref=place.photo_ref
     const api = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-    console.log(place)
+    
+
   return (
     <>
-    <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_ref}&key=${api}`}
-            
-             style={{width:140+'px'}}
-            className='rounded-lg object-cover  h-16'
+    <img src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_ref}&key=${api}`}         
+          width={'50px'}  className='rounded-lg  h-16'
         />
-        <div>
-        <h2 className='text-[13px] font-bold mt-1 line-clamp-1'>{place.name}</h2>
+        <div className='w-[300px]  sm:w-[170px] '>
+        <h2 className='text-[13px] font-bold w-44 mt-1 line-clamp-1'>{place.name}</h2>
         <h2 className='text-[10px] text-gray-600
-                line-clamp-2'>{place.formatted_address}</h2>
+                line-clamp-2 '>{place.formatted_address}</h2>
                 <div className='flex gap-1 items-center'>
                 <svg xmlns="http://www.w3.org/2000/svg" 
                 viewBox="0 0 24 24" fill="currentColor" 
@@ -23,6 +23,8 @@ const FavItem = ({place}) => {
                 </svg>
                 <h2 className='text-[10px] font-bold'>{place.rating}</h2></div>
         </div>
+      
+
     </>
   )
 }

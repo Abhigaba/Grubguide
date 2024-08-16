@@ -72,7 +72,7 @@ const Register = () => {
       <Input type="password" id="password" name="password" label="Password" placeholder="••••••••••" className={passError ? true : false}/>
       <Button value="Register" />
              </form>
-             <Link href="/userLogin" className={`absolute bottom-6`}>Already Registered? Log In</Link>
+             <Link href="/UserLogin" className={`absolute bottom-6`}>Already Registered? Log In</Link>
       {error && <p>{error}</p>}
     </div>
     </div>

@@ -31,7 +31,7 @@ const Places = () => {
             location: `${location.lat},${location.lng}`,
             radius: dist*1000,
             keyword: `${category}`,
-            minrating: 1,
+            minrating: rating,
             opennow: true,
         }});
         setplaces(res.data.results)
@@ -46,22 +46,18 @@ const Places = () => {
           fetchPlaces();
           setTimeout(() => setLoading(false),1200);
 
-    }}, [category, dist,location])
+    }}, [category, dist,location, rating])
   
 
   useEffect(() => {
         if (places.length > 0){
             let filtered = places
-            if(rating){
-              console.log(rating)
-              filtered =   places.filter((restaurant) => restaurant.rating > Math.min(rating) + 1 )
-            }
             if(Search){
               filtered = places.filter((restaurant) => restaurant.name.toLowerCase().includes(Search.toLowerCase()));
             }
             setFilteredplaces(filtered)
         }
-  },[rating, Search])
+  },[Search])
     const slideRight=(element)=>{
       element.scrollLeft+=500;
   }
@@ -77,7 +73,7 @@ const Places = () => {
             fill="none" viewBox="0 0 24 24" 
             onClick={()=>slideLeft(elementRef.current)} 
             strokeWidth={1.5} stroke="currentColor" 
-            className="w-8 h-8 absolute rotate-180 top-[35%]
+            className="hidden w-8 h-8 sm:block absolute rotate-180 top-[35%]
             bg-gray-300 cursor-pointer p-1 rounded-full text-white">
             <path strokeLinecap="round" 
             strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -96,7 +92,7 @@ const Places = () => {
             onClick={()=>slideRight(elementRef.current)} 
             fill="none" viewBox="0 0 24 24" 
             strokeWidth={1.5} stroke="currentColor" 
-            className="w-8 h-8 absolute right-0 top-[35%]
+            className="hidden sm:block w-8 h-8 absolute right-0 top-[35%]
             bg-gray-300 cursor-pointer p-1 rounded-full text-white">
             <path strokeLinecap="round" 
             strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

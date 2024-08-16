@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useRContext } from '../contexts/useRContext'
 import { useFavourites } from '../contexts/useFavourites'
 import { useState } from 'react'
+import { account } from '@/config/appwrite'
+import { addFavourite, fetchFavourites } from '@/config/appwrite'
 const PlaceCard = ({place, showDir=false}) => {
 
     const api = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
@@ -12,7 +14,6 @@ const PlaceCard = ({place, showDir=false}) => {
     const {fav, setfav} = useFavourites()
 
     useEffect(() => {   
-            
             calculateDist(
                     location.lat, location.lng, 
                     place.geometry.location.lat,
@@ -20,17 +21,31 @@ const PlaceCard = ({place, showDir=false}) => {
             )
     }, [])
 
-
-    const handleFavourites = (e) => {
-      e.stopPropagation();
-        setisFavourite((prev) => !prev)
-        if (!isFavourite){
-          setfav([...fav, place])
-        }
-        else{
-          setfav((prev) => prev.filter(item => item !== place))
-        }
+    useEffect(() => {
+      searchinFav()
     }
+  , [fav])
+    const searchinFav = () => {
+      if (fav){
+      const isFav = fav.some(favPlace => favPlace.name === place.name);
+      setisFavourite(isFav);}
+    }
+
+    const handleFavourites = async (e) => {
+      e.stopPropagation();
+      const user = await account.get();   
+      try {
+          if (!isFavourite) {
+            setfav([...fav, place]);  // Update local state
+              await addFavourite(user.$id, place);  // Add the favorite to Appwrite
+              setfav([...fav, place]);  // Update local state
+          } 
+          }
+       catch (error) {
+          console.error('Failed to update favorites:', error);
+      }
+  };
+  
     
     const calculateDist = (lat2, lon2, lat1, lon1) => {
         const earthRadius = 6371; // in kilometers
@@ -41,7 +56,7 @@ const PlaceCard = ({place, showDir=false}) => {
     
         const dLat = degToRad(lat2 - lat1);
         const dLon = degToRad(lon2 - lon1);
-    ``
+    
         const a =
           Math.sin(dLat / 2) * Math.sin(dLat / 2) +
           Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
@@ -51,7 +66,7 @@ const PlaceCard = ({place, showDir=false}) => {
         const distance = earthRadius * c;
        
         setdist(distance.toFixed(1))
-        return distance.toFixed(2); // Return the distance 
+        return distance.toFixed(2); 
     }
 
     const onDirectionClick=()=>{
@@ -68,7 +83,7 @@ const PlaceCard = ({place, showDir=false}) => {
            alt={place.name}
            width={180}
            height={80}
-           className='rounded-lg object-cover h-[90px] '
+           className='rounded-lg object-cover max-h-[90px] '
        />
         <h2 className='text-[13px] font-bold mt-1 line-clamp-1'>{place.name}</h2>
                <h2 className='text-[10px] text-gray-400 
