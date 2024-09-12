@@ -8,8 +8,11 @@ import Link from 'next/link'
 const UserLogin = () => {
   
   const [error, setError] = useState(null);
+  const [email, setEmail] = useState('test123@gmail.com');
+  const [pass, setPass] = useState('12345678')
   const router = useRouter()
   const {user, setUser} = useAuth() 
+
 
   useEffect(() => {
       const check = async () => {
@@ -25,6 +28,15 @@ const UserLogin = () => {
     }
       check()
   }, [])
+
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+  } 
+
+  const onChangePass = (e) => {
+    setPass(e.target.value);
+  }
+  
   const handleLogin = async (e) => {
     
     e.preventDefault();
@@ -51,7 +63,7 @@ function Button({value}) {
   )
 }
 
-  function Input({type, id, name, label, placeholder, autofocus}) {
+  function Input({type, id, name, label, placeholder, autofocus, value, onChange}) {
     return (
       <label className="text-gray-500 block mt-3">{label}
         <input
@@ -59,6 +71,8 @@ function Button({value}) {
           type={type} 
           id={id} 
           name={name} 
+          value={value}
+          onChange={onChange}
           placeholder={placeholder}
           className="rounded px-4 py-3 w-full mt-1 bg-white text-gray-900 border border-gray-200 focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-100"/>
       </label>
@@ -70,8 +84,8 @@ function Button({value}) {
     <div className="relative border-t-8 rounded-sm border-indigo-600 bg-white px-12 pt-8 pb-16 shadow-2xl w-96">
       <h1 className="font-bold text-center block text-2xl">Log In</h1>
       <form onSubmit={(e) => handleLogin(e)}>
-      <Input type="email" id="email" name="email" label="Email Address" placeholder="me@example.com" autofocus={true}/>
-      <Input type="password" id="password" name="password" label="Password" placeholder="••••••••••" />
+      <Input type="email" id="email" value={email} onChange={onChangeEmail} name="email" label="Email Address" placeholder="me@example.com" autofocus={true}/>
+      <Input type="password" id="password" value={pass} onChange={onChangePass} name="password" label="Password" placeholder="••••••••••" />
       <Button value="Submit" />
       </form>
       <Link href="/Register" className={`absolute bottom-7`}>New User? Sign up</Link>
